@@ -4,12 +4,13 @@ body {
     padding: 0;
     line-height: 1.6;
     scroll-behavior: smooth;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+    background-color: #ff6f61;
+    padding: 15px 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -34,7 +35,7 @@ nav ul li a {
 }
 
 section {
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -44,24 +45,53 @@ section.active {
     opacity: 1;
 }
 
-#home {
-    background-color: #f4f4f4;
+#intro {
+    background-color: #ffcc5c;
 }
 
-#about {
+#gallery {
+    background-color: #88d8b0;
+}
+
+.gallery-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.gallery-item {
     background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.gallery-item img {
+    width: 100%;
+    border-radius: 10px;
 }
 
 #rules {
-    background-color: #f4f4f4;
+    background-color: #ff6f61;
 }
 
 #join {
-    background-color: #fff;
+    background-color: #88d8b0;
+}
+
+#join button {
+    padding: 10px 20px;
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #contact {
-    background-color: #f4f4f4;
+    background-color: #ffcc5c;
 }
 
 #contact-form {
@@ -85,7 +115,7 @@ section.active {
 #contact-form button {
     margin-top: 15px;
     padding: 10px;
-    background-color: #333;
+    background-color: #ff6f61;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -97,15 +127,4 @@ footer {
     color: #fff;
     text-align: center;
     padding: 20px 0;
-}
-
-@media (max-width: 768px) {
-    nav ul li {
-        display: block;
-        margin: 10px 0;
-    }
-
-    section {
-        padding: 40px 10px;
-    }
 }
