@@ -1,14 +1,14 @@
 body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    color: #add8e6;
     background-image: url('images/background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    color: #add8e6;
-    line-height: 1.6;
-    scroll-behavior: smooth;
 }
 
 header {
@@ -35,7 +35,6 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
-    font-size: 2.2vw;
 }
 
 section {
@@ -44,35 +43,21 @@ section {
     opacity: 0;
     transition: opacity 1s ease-in-out;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 section.active {
     opacity: 1;
 }
 
-h1, h2, p, ul, li, textarea, button {
-    font-size: 4.4vw;
-    color: #add8e6;
-}
-
-h2 {
-    font-size: 3.8vw;
-}
-
-p, ul, li {
-    font-size: 2.2vw;
-}
-
 #intro {
-    background-color: rgba(255, 204, 92, 0.8);
+    background-image: url('images/bg1.jpg');
 }
 
 #gallery {
-    background-color: rgba(136, 216, 176, 0.8);
+    background-image: url('images/bg2.jpg');
 }
 
 .gallery-grid {
@@ -96,23 +81,23 @@ p, ul, li {
 }
 
 #rules {
-    background-color: rgba(255, 111, 97, 0.8);
+    background-image: url('images/bg3.jpg');
 }
 
 #news {
-    background-color: rgba(255, 204, 92, 0.8);
+    background-image: url('images/bg4.jpg');
 }
 
 #progress {
-    background-color: rgba(136, 216, 176, 0.8);
+    background-image: url('images/bg5.jpg');
 }
 
 #penalty {
-    background-color: rgba(255, 111, 97, 0.8);
+    background-image: url('images/bg6.jpg');
 }
 
 #join {
-    background-color: rgba(136, 216, 176, 0.8);
+    background-image: url('images/bg7.jpg');
 }
 
 #join button {
@@ -122,11 +107,10 @@ p, ul, li {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 2.2vw;
 }
 
 #contact {
-    background-color: rgba(255, 204, 92, 0.8);
+    background-image: url('images/bg8.jpg');
 }
 
 #contact-form {
@@ -141,7 +125,6 @@ p, ul, li {
 
 #contact-form label {
     margin-top: 10px;
-    font-size: 2.2vw;
 }
 
 #contact-form input, #contact-form textarea {
@@ -149,7 +132,6 @@ p, ul, li {
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 2.2vw;
 }
 
 #contact-form button {
@@ -160,7 +142,6 @@ p, ul, li {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 2.2vw;
 }
 
 footer {
@@ -168,14 +149,12 @@ footer {
     color: #fff;
     text-align: center;
     padding: 20px 0;
-    font-size: 2.2vw;
 }
 
 .sub-section {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #fff;
     padding: 20px;
     margin: 20px 0;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 2.2vw;
 }
