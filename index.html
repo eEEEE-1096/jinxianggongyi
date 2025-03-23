@@ -10,48 +10,95 @@
     <header>
         <nav>
             <ul>
-                <li><a href="#home">首页</a></li>
-                <li><a href="#about">关于我们</a></li>
-                <li><a href="#rules">服务器规则</a></li>
+                <li><a href="#intro">服务器简介</a></li>
+                <li><a href="#gallery">建筑欣赏</a></li>
+                <li><a href="#rules">服务器规定</a></li>
+                <li><a href="#news">服务器新闻</a></li>
+                <li><a href="#progress">建设进度</a></li>
+                <li><a href="#penalty">处罚决定</a></li>
                 <li><a href="#join">加入我们</a></li>
-                <li><a href="#contact">联系我们</a></li>
+                <li><a href="#contact">留言</a></li>
             </ul>
         </nav>
     </header>
 
-   <section id="home">
-        <h1>欢迎来到锦湘工艺！</h1>
-        <p>一个充满乐趣和挑战的世界，等你来探索！</p>
-    </section>
-    
-    <section id="about">
-        <h2>关于我们</h2>
-        <p>这是一个由热爱我的世界城市建设的玩家创建的服务器，我们致力于提供一个公平、友好的游戏环境。</p>
+    <section id="intro">
+        <h1>欢迎来到锦湘工艺服务器！</h1>
+        <p>这是一个充满创意与友爱的《我的世界》服务器，致力于打造一个和谐的建筑与生存社区。</p>
     </section>
 
-    <section id="rules">
-        <h2>服务器规则</h2>
+    <section id="gallery">
+        <h2>建筑欣赏</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="images/build1.jpg" alt="建筑1">
+                <p>锦湘市政务服务中心</p>
+            </div>
+            <div class="gallery-item">
+                <img src="images/build2.jpg" alt="建筑2">
+                <p>双子塔</p>
+            </div>
+            <div class="gallery-item">
+                <img src="images/build3.jpg" alt="建筑3">
+                <p>人防工程</p>
+            </div>
+            <div class="gallery-item">
+               <img src="images/build4.jpg" alt="建筑4">
+               <p>大全萍山隧道</p>
+        </div>
+    </section>
+
+   <section id="rules">
+        <h2>服务器规定</h2>
         <ul>
-            <li>禁止使用外挂</li>
-            <li>尊重其他玩家</li>
-            <li>禁止破坏他人建筑</li>
+            <li>禁止使用外挂或作弊工具。</li>
+            <li>尊重其他玩家，禁止恶意破坏。</li>
+            <li>建筑需符合服务器主题，禁止违规内容。</li>
+            <li>管理员有权对违规行为进行处理。</li>
         </ul>
     </section>
 
-    <section id="join">
+   <section id="news">
+        <h2>服务器新闻</h2>
+        <div id="news-posts"></div>
+        <form id="news-form">
+            <textarea id="news-content" placeholder="发布新闻..." required></textarea>
+            <button type="submit">发布</button>
+        </form>
+    </section>
+
+    <section id="progress">
+        <h2>建设进度</h2>
+        <div id="progress-posts"></div>
+        <form id="progress-form">
+            <textarea id="progress-content" placeholder="发布建设进度..." required></textarea>
+            <button type="submit">发布</button>
+        </form>
+    </section>
+
+   <section id="penalty">
+        <h2>处罚决定</h2>
+        <div id="penalty-posts"></div>
+        <form id="penalty-form">
+            <textarea id="penalty-content" placeholder="发布处罚决定..." required></textarea>
+            <button type="submit">发布</button>
+        </form>
+    </section>
+
+   <section id="join">
         <h2>加入我们</h2>
-        <p>QQ群号: <code>949043991</code></p>
+        <p>服务器QQ群号:949043991 <code></code></p>
         <button id="copy-ip">复制群号</button>
     </section>
 
-    <section id="contact">
-        <h2>联系我们</h2>
+   <section id="contact">
+        <h2>留言</h2>
         <form id="contact-form">
             <label for="name">姓名:</label>
             <input type="text" id="name" name="name" required>
             <label for="email">邮箱:</label>
             <input type="email" id="email" name="email" required>
-            <label for="message">留言:</label>
+            <label for="message">留言内容:</label>
             <textarea id="message" name="message" required></textarea>
             <button type="submit">提交</button>
         </form>
