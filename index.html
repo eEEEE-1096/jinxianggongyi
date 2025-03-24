@@ -3,111 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>锦湘工艺 - 一个我的世界服务器</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>锦湘工艺</title>
+    <link href="https://cdn.jsdelivr.net/npm/@animxyz/core@0.6.0/dist/animxyz.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --text-color: #E6F7FF;
+            --nav-bg: #4169E1;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            margin: 0;
+            background: url('bg1.jpg') fixed;
+            background-size: cover;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: var(--text-color);
+        }
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            background: var(--nav-bg);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            align-items: center;
+        }
+        .brand {
+            color: white;
+            font-weight: bold;
+        }
+        .brand small {
+            font-size: 12px;
+            display: block;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+        .section {
+            min-height: 100vh;
+            padding: 100px 20px 20px;
+            transition: opacity 0.5s;
+            display: none;
+        }
+        .section.active {
+            display: block;
+            animation: xyz-in 0.5s ease-out;
+        }
+        .post-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .edit-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #FF6B6B;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+        }
+        .admin-mode .edit-btn {
+            display: block;
+        }
+        .profile-card {
+            display: flex;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .avatar-upload {
+            position: relative;
+            width: 200px;
+        }
+        .avatar-upload img {
+            width: 100%;
+            height: auto;
+        }
+        .avatar-upload input {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+        #recaptcha-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .post-filters {
+            display: flex;
+            gap: 15px;
+            margin: 20px;
+        }
+        .post-filters select, .post-filters input {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--nav-bg);
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#intro">服务器简介</a></li>
-                <li><a href="#gallery">建筑欣赏</a></li>
-                <li><a href="#rules">服务器规定</a></li>
-                <li><a href="#news">服务器新闻</a></li>
-                <li><a href="#progress">建设进度</a></li>
-                <li><a href="#penalty">处罚决定</a></li>
-                <li><a href="#join">加入我们</a></li>
-                <li><a href="#contact">留言</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav id="navbar">
+        <div class="brand">
+            <h1>锦湘工艺</h1>
+            <small>Jinxiang Process</small>
+        </div>
+        <div class="nav-links">
+            <a href="#login">登录/注册</a>
+            <a href="#home">首页</a>
+            <a href="#intro">服务器简介</a>
+            <a href="#buildings">建筑欣赏</a>
+            <a href="#rules">服务器规定</a>
+            <a href="#progress">建设进度</a>
+            <a href="#punishment">处罚公示</a>
+            <a href="#join">加入我们</a>
+            <a href="#message">留言</a>
+        </div>
+        <div class="user-menu">
+            <img id="user-avatar" src="default-avatar.png" alt="头像">
+            <div class="dropdown-content">
+                <a href="#profile">个人中心</a>
+                <a href="#settings">账号设置</a>
+                <a onclick="logout()">退出登录</a>
+            </div>
+        </div>
+    </nav>
 
-    <section id="intro">
-        <h1>锦湘工艺</h1>
-        <p>服务器于2025年2月15日开服，我们致力打造一个高水平的Minecraft城建服务器</p>
+    <section id="home" class="section active"></section>
+    <section id="intro" class="section"></section>
+    <section id="buildings" class="section"></section>
+    <section id="rules" class="section"></section>
+    <section id="progress" class="section">
+        <div class="post-filters">
+            <select id="category-filter">
+                <option value="all">全部</option>
+                <option value="news">新闻</option>
+                <option value="update">更新</option>
+                <option value="event">活动</option>
+            </select>
+            <input type="text" id="search-input" placeholder="搜索帖子...">
+        </div>
+        <div id="progress-container"></div>
     </section>
-
-    <section id="gallery">
-        <h2>建筑欣赏</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="images/build1.jpg" alt="锦湘市政务服务中心">
-                <p>锦湘市政务服务中心</p>
+    <section id="punishment" class="section"></section>
+    <section id="join" class="section"></section>
+    <section id="message" class="section"></section>
+    <section id="profile" class="section">
+        <div class="profile-card">
+            <div class="avatar-upload">
+                <img id="profile-avatar">
+                <input type="file" id="avatar-input" accept="image/*">
             </div>
-            <div class="gallery-item">
-                <img src="images/build2.jpg" alt="双子塔">
-                <p>双子塔</p>
+            <div class="profile-info">
+                <h2 id="profile-username"></h2>
+                <p id="profile-email"></p>
+                <div class="stats">
+                    <span>发帖数: <span id="post-count">0</span></span>
+                    <span>注册时间: <span id="join-date"></span></span>
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="images/build3.jpg" alt="人民防空工程">
-                <p>人民防空工程</p>
-             </div>
-            <div class="gallery-item">
-                <img src="images/build4.jpg" alt="大全萍山隧道">
-                <p>大全萍山隧道</p>
         </div>
     </section>
 
-    <section id="rules">
-        <h2>服务器规定</h2>
-        <ul>
-            <li>禁止使用外挂或作弊工具。</li>
-            <li>尊重其他玩家，禁止恶意破坏。</li>
-            <li>建筑需符合服务器主题，禁止违规内容。</li>
-            <li>管理员有权对违规行为进行处理。</li>
-        </ul>
-    </section>
+    <div class="post-editor">
+        <textarea id="post-content"></textarea>
+        <button onclick="submitPost()">发布</button>
+    </div>
 
-    <section id="news">
-        <h2>服务器新闻</h2>
-        <div id="news-posts"></div>
-        <form id="news-form">
-            <textarea id="news-content" placeholder="发布新闻..." required></textarea>
-            <button type="submit">发布</button>
-        </form>
-    </section>
+    <div class="auth-modal">
+        <div class="auth-tabs">
+            <button class="tab active" data-tab="login">登录</button>
+            <button class="tab" data-tab="register">注册</button>
+            <button class="tab" data-tab="reset">重置密码</button>
+        </div>
+        <input type="text" id="username" placeholder="用户名">
+        <input type="email" id="email" placeholder="邮箱">
+        <input type="password" id="password" placeholder="密码">
+        <input type="text" id="admin-code" placeholder="管理员邀请码（可选）">
+        <div id="recaptcha-container"></div>
+        <button onclick="handleAuth()">确认</button>
+    </div>
 
-    <section id="progress">
-        <h2>建设进度</h2>
-        <div id="progress-posts"></div>
-        <form id="progress-form">
-            <textarea id="progress-content" placeholder="发布建设进度..." required></textarea>
-            <button type="submit">发布</button>
-        </form>
-    </section>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT",
+            storageBucket: "YOUR_BUCKET.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-    <section id="penalty">
-        <h2>处罚决定</h2>
-        <div id="penalty-posts"></div>
-        <form id="penalty-form">
-            <textarea id="penalty-content" placeholder="发布处罚决定..." required></textarea>
-            <button type="submit">发布</button>
-        </form>
-    </section>
+        class UserSystem {
+            constructor() {
+                this.currentUser = null;
+                this.userData = null;
+            }
+            
+            async register(username, email, password, adminCode) {
+                const credential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                await db.collection('users').doc(credential.user.uid).set({
+                    username,
+                    admin: adminCode === 'ADMIN_SECRET_CODE',
+                    joinDate: firebase.firestore.FieldValue.serverTimestamp(),
+                    postCount: 0
+                });
+                return credential.user;
+            }
 
-    <section id="join">
-        <h2>加入我们</h2>
-        <p>服务器QQ群号: <code>949043991</code></p>
-        <button id="copy-ip">复制群号</button>
-    </section>
+            async login(email, password) {
+                return await firebase.auth().signInWithEmailAndPassword(email, password);
+            }
 
-    <section id="contact">
-        <h2>留言</h2>
-        <form id="contact-form">
-            <label for="name">姓名:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">邮箱:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">留言内容:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">提交</button>
-        </form>
-    </section>
+            async loadUserProfile(uid) {
+                const doc = await db.collection('users').doc(uid).get();
+                if (doc.exists) {
+                    this.userData = doc.data();
+                    this.updateProfileUI();
+                }
+            }
 
-    <footer>
-        <p>&copy; 2025 锦湘工艺服务器</p>
-    </footer>
+            updateProfileUI() {
+                document.getElementById('profile-username').textContent = this.userData.username;
+                document.getElementById('profile-email').textContent = this.currentUser.email;
+                document.getElementById('join-date').textContent = new Date(this.userData.joinDate).toLocaleDateString();
+                if (this.userData.avatar) {
+                    document.getElementById('user-avatar').src = this.userData.avatar;
+                }
+            }
 
-    <script src="scripts.js"></script>
+            async uploadAvatar(file) {
+                const storageRef = firebase.storage().ref(`avatars/${this.currentUser.uid}`);
+                const snapshot = await storageRef.put(file);
+                const downloadURL = await snapshot.ref.getDownloadURL();
+                await db.collection('users').doc(this.currentUser.uid).update({ avatar: downloadURL });
+                return downloadURL;
+            }
+        }
+
+        class PostManager {
+            constructor() {
+                this.currentFilter = 'all';
+                this.currentSearch = '';
+            }
+
+            async getPostsWithFilters(collection) {
+                let query = db.collection(collection).orderBy('timestamp', 'desc');
+                if (this.currentFilter !== 'all') query = query.where('category', '==', this.currentFilter);
+                if (this.currentSearch) query = query.where('keywords', 'array-contains', this.currentSearch.toLowerCase());
+                return query.limit(20).get();
+            }
+
+            setupFilters() {
+                document.getElementById('category-filter').addEventListener('change', (e) => {
+                    this.currentFilter = e.target.value;
+                    this.refreshPosts();
+                });
+                document.getElementById('search-input').addEventListener('input', (e) => {
+                    this.currentSearch = e.target.value.trim();
+                    this.refreshPosts();
+                });
+            }
+        }
+
+        const userSystem = new UserSystem();
+        const postManager = new PostManager();
+
+        function initRecaptcha() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                size: 'normal',
+                callback: () => handleAuth()
+            });
+            recaptchaVerifier.render();
+        }
+
+        async function handleAuth() {
+            const captchaResponse = grecaptcha.getResponse();
+            if(!captchaResponse) return alert('请完成验证码');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                await userSystem.login(email, password);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function sendPasswordReset(email) {
+            await firebase.auth().sendPasswordResetEmail(email);
+            alert('重置链接已发送到您的邮箱');
+        }
+
+        function logout() {
+            firebase.auth().signOut();
+        }
+
+        document.getElementById('avatar-input').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = await userSystem.uploadAvatar(file);
+                document.getElementById('profile-avatar').src = url;
+            }
+        });
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (user) {
+                await userSystem.loadUserProfile(user.uid);
+                postManager.setupFilters();
+                initRecaptcha();
+            }
+        });
+    </script>
 </body>
 </html>
