@@ -4,336 +4,766 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>锦湘工艺</title>
-    <link href="https://cdn.jsdelivr.net/npm/@animxyz/core@0.6.0/dist/animxyz.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
-            --text-color: #E6F7FF;
-            --nav-bg: #4169E1;
-            --card-bg: rgba(255, 255, 255, 0.1);
+            --primary: #4169E1;
+            --primary-dark: #2a4a9b;
+            --secondary: #FF6B6B;
+            --text-light: #E6F7FF;
+            --text-dark: #2C3E50;
+            --bg-dark: rgba(30, 30, 30, 0.9);
+            --bg-light: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
         }
-        body {
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-light);
             background: url('bg1.jpg') fixed;
             background-size: cover;
-            font-family: 'Microsoft YaHei', sans-serif;
-            color: var(--text-color);
+            scroll-behavior: smooth;
+            line-height: 1.6;
         }
+
         #navbar {
             position: fixed;
             top: 0;
             width: 100%;
             height: 80px;
-            background: var(--nav-bg);
-            z-index: 1000;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             display: flex;
             justify-content: space-between;
-            padding: 0 30px;
             align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
         }
+
         .brand {
-            color: white;
-            font-weight: bold;
+            display: flex;
+            flex-direction: column;
         }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, white, #E6F7FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
         .brand small {
-            font-size: 12px;
-            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.8);
         }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
         .nav-links a {
             color: white;
             text-decoration: none;
-            margin: 0 15px;
-            transition: 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
         }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background: white;
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-3px);
+        }
+
         .section {
             min-height: 100vh;
-            padding: 100px 20px 20px;
-            transition: opacity 0.5s;
-            display: none;
-        }
-        .section.active {
-            display: block;
-            animation: xyz-in 0.5s ease-out;
-        }
-        .post-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(5px);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .edit-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #FF6B6B;
-            padding: 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-        }
-        .admin-mode .edit-btn {
-            display: block;
-        }
-        .profile-card {
-            display: flex;
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
+            padding: 100px 5% 50px;
+            position: relative;
             overflow: hidden;
         }
-        .avatar-upload {
-            position: relative;
-            width: 200px;
-        }
-        .avatar-upload img {
-            width: 100%;
-            height: auto;
-        }
-        .avatar-upload input {
+
+        .section::before {
+            content: '';
             position: absolute;
-            bottom: 10px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+            z-index: -1;
+        }
+
+        .section-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-dark);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .section-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .building-container {
+            display: flex;
+            align-items: center;
+            margin: 3rem 0;
+            gap: 2rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .building-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .building-image {
+            flex: 1;
+            min-height: 300px;
+            overflow: hidden;
+        }
+
+        .building-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .building-container:hover .building-image img {
+            transform: scale(1.05);
+        }
+
+        .building-info {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .building-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .building-info p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .post-card {
+            background: var(--bg-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+
+        .post-card:hover {
+            transform: translateX(10px);
+            background: rgba(65, 105, 225, 0.1);
+        }
+
+        .post-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-meta {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .post-meta::before {
+            content: '•';
+            margin: 0 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px -5px var(--primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px -5px var(--primary);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            box-shadow: 0 5px 15px -5px var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 8px 20px -5px var(--secondary);
+        }
+
+        .admin-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .admin-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .admin-btn:hover {
+            background: #e05555;
+        }
+
+        .qq-group {
+            background: var(--bg-light);
+            padding: 1.2rem;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .qq-group:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .qq-group span {
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 0 0.5rem;
+        }
+
+        .copy-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            margin-left: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-        }
-        #recaptcha-container {
-            margin: 20px 0;
-            display: flex;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
             justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
         }
-        .post-filters {
-            display: flex;
-            gap: 15px;
-            margin: 20px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .post-filters select, .post-filters input {
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid var(--nav-bg);
-            background: rgba(255,255,255,0.2);
+
+        .modal-content {
+            background: var(--bg-dark);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--secondary);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
             color: white;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        @media (max-width: 992px) {
+            .building-container {
+                flex-direction: column;
+            }
+            
+            .building-image, 
+            .building-info {
+                width: 100%;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #navbar {
+                padding: 0 1rem;
+                height: 70px;
+            }
+            
+            .brand h1 {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section {
+                padding: 80px 1rem 1rem;
+            }
+            
+            .section-content {
+                padding: 1.5rem;
+            }
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav id="navbar">
         <div class="brand">
             <h1>锦湘工艺</h1>
             <small>Jinxiang Process</small>
         </div>
         <div class="nav-links">
-            <a href="#login">登录/注册</a>
             <a href="#home">首页</a>
             <a href="#intro">服务器简介</a>
             <a href="#buildings">建筑欣赏</a>
             <a href="#rules">服务器规定</a>
+            <a href="#news">服务器新闻</a>
             <a href="#progress">建设进度</a>
             <a href="#punishment">处罚公示</a>
             <a href="#join">加入我们</a>
             <a href="#message">留言</a>
-        </div>
-        <div class="user-menu">
-            <img id="user-avatar" src="default-avatar.png" alt="头像">
-            <div class="dropdown-content">
-                <a href="#profile">个人中心</a>
-                <a href="#settings">账号设置</a>
-                <a onclick="logout()">退出登录</a>
-            </div>
+            <a href="#login" id="auth-link">登录/注册</a>
         </div>
     </nav>
 
-    <section id="home" class="section active"></section>
-    <section id="intro" class="section"></section>
-    <section id="buildings" class="section"></section>
-    <section id="rules" class="section"></section>
-    <section id="progress" class="section">
-        <div class="post-filters">
-            <select id="category-filter">
-                <option value="all">全部</option>
-                <option value="news">新闻</option>
-                <option value="update">更新</option>
-                <option value="event">活动</option>
-            </select>
-            <input type="text" id="search-input" placeholder="搜索帖子...">
+    <section id="home" class="section">
+        <div class="section-content animate__animated animate__fadeIn">
+            <h1 class="animate__animated animate__fadeInDown">欢迎来到锦湘工艺</h1>
+            <p class="animate__animated animate__fadeIn animate-delay-1">我们致力于打造一个高水平的Minecraft服务器</p>
+            <a href="#intro" class="btn animate__animated animate__fadeInUp animate-delay-2">开始探索</a>
         </div>
-        <div id="progress-container"></div>
     </section>
-    <section id="punishment" class="section"></section>
-    <section id="join" class="section"></section>
-    <section id="message" class="section"></section>
-    <section id="profile" class="section">
-        <div class="profile-card">
-            <div class="avatar-upload">
-                <img id="profile-avatar">
-                <input type="file" id="avatar-input" accept="image/*">
+
+    <!-- 服务器简介 -->
+    <section id="intro" class="section">
+        <div class="section-content fade-in">
+            <h2 class="animate__animated animate__fadeInDown">服务器简介</h2>
+            <div id="intro-text" class="animate__animated animate__fadeIn animate-delay-1">
+                <p>锦湘工艺是一个专注于建筑和创造的Minecraft服务器，我们提供高质量的建造体验和创造平台。</p>
+                <p>服务器特色：</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>24小时稳定运行</li>
+                    <li>专业建筑团队合作</li>
+                    <li>公平的游戏环境</li>
+                  </ul>
             </div>
-            <div class="profile-info">
-                <h2 id="profile-username"></h2>
-                <p id="profile-email"></p>
-                <div class="stats">
-                    <span>发帖数: <span id="post-count">0</span></span>
-                    <span>注册时间: <span id="join-date"></span></span>
+            <div class="admin-controls">
+                <button class="admin-btn" onclick="editContent('intro')">
+                    <i>✏️</i> 编辑
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="buildings" class="section">
+        <div class="section-content fade-in">
+            <h2 class="animate__animated animate__fadeInDown">建筑欣赏</h2>
+            <div id="buildings-container" class="animate__animated animate__fadeIn animate-delay-1">
+                <div class="building-container">
+                    <div class="building-image">
+                        <img src="assets/building1.jpg" alt="中世纪城堡">
+                    </div>
+                    <div class="building-info">
+                        <h3>中世纪城堡</h3>
+                        <p>这座宏伟的城堡由我们的建筑团队耗时两周完成，采用了哥特式建筑风格，包含主堡、城墙和护城河等完整结构。</p>
+                        <p>建筑材料：石砖、深板岩、橡木</p>
+                    </div>
+                </div>
+                
+                <div class="building-container">
+                    <div class="building-image">
+                        <img src="assets/building2.jpg" alt="现代都市">
+                    </div>
+                    <div class="building-info">
+                        <h3>现代都市</h3>
+                        <p>我们的现代建筑区展示了各种风格的摩天大楼和城市设施，包括商业中心、住宅区和公园等完整城市系统。</p>
+                        <p>建筑材料：混凝土、玻璃、石英</p>
+                    </div>
+                </div>
+                
+                <div class="building-container">
+                    <div class="building-image">
+                        <img src="assets/building3.jpg" alt="日式庭院">
+                    </div>
+                    <div class="building-info">
+                        <h3>日式庭院</h3>
+                        <p>这座精致的日式庭院展现了东方建筑美学，包含茶室、枯山水和樱花林等传统元素，营造出宁静祥和的氛围。</p>
+                        <p>建筑材料：云杉木、石英、杜鹃花丛</p>
+                    </div>
                 </div>
             </div>
+            <div class="admin-controls">
+                <button class="admin-btn" onclick="openBuildingModal()">
+                    <i>➕</i> 添加建筑
+                </button>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="gallery.html" class="btn">查看更多建筑</a>
+            </div>
         </div>
     </section>
 
-    <div class="post-editor">
-        <textarea id="post-content"></textarea>
-        <button onclick="submitPost()">发布</button>
-    </div>
-
-    <div class="auth-modal">
-        <div class="auth-tabs">
-            <button class="tab active" data-tab="login">登录</button>
-            <button class="tab" data-tab="register">注册</button>
-            <button class="tab" data-tab="reset">重置密码</button>
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('auth-modal')">&times;</span>
+            <h2 id="auth-title">登录/注册</h2>
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="auth-username">用户名</label>
+                    <input type="text" id="auth-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="auth-email">邮箱</label>
+                    <input type="email" id="auth-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="auth-password">密码</label>
+                    <input type="password" id="auth-password" required>
+                </div>
+                <div class="form-group" id="admin-code-group" style="display:none;">
+                    <label for="auth-admin-code">管理员邀请码</label>
+                    <input type="text" id="auth-admin-code">
+                </div>
+                <button type="submit" class="btn" id="auth-submit">注册</button>
+                <p style="margin-top: 1rem; text-align: center; color: rgba(255,255,255,0.7);">
+                    <a href="#" onclick="toggleAuthMode()" style="color: var(--primary); text-decoration: none;" id="auth-toggle">已有账号？立即登录</a>
+                </p>
+            </form>
         </div>
-        <input type="text" id="username" placeholder="用户名">
-        <input type="email" id="email" placeholder="邮箱">
-        <input type="password" id="password" placeholder="密码">
-        <input type="text" id="admin-code" placeholder="管理员邀请码（可选）">
-        <div id="recaptcha-container"></div>
-        <button onclick="handleAuth()">确认</button>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT",
-            storageBucket: "YOUR_BUCKET.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const SUPABASE_URL = 'https://mbvtwdmpiedjbnxwtnet.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idnR3ZG1waWVkamJueHd0bmV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4OTkyNjQsImV4cCI6MjA1ODQ3NTI2NH0.dtl0NgeMvmCU8WlfiH72KZYXdkeSYdYJ24QytbssQoA';
+        const supabase = createClient(https://mbvtwdmpiedjbnxwtnet.supabase.co, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1idnR3ZG1waWVkamJueHd0bmV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4OTkyNjQsImV4cCI6MjA1ODQ3NTI2NH0.dtl0NgeMvmCU8WlfiH72KZYXdkeSYdYJ24QytbssQoA);
 
-        class UserSystem {
-            constructor() {
-                this.currentUser = null;
-                this.userData = null;
-            }
-            
-            async register(username, email, password, adminCode) {
-                const credential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                await db.collection('users').doc(credential.user.uid).set({
-                    username,
-                    admin: adminCode === 'ADMIN_SECRET_CODE',
-                    joinDate: firebase.firestore.FieldValue.serverTimestamp(),
-                    postCount: 0
-                });
-                return credential.user;
-            }
+        let currentUser = null;
+        let isLoginMode = false;
 
-            async login(email, password) {
-                return await firebase.auth().signInWithEmailAndPassword(email, password);
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+            initAuth();
+            loadContent();
+            checkHash();
 
-            async loadUserProfile(uid) {
-                const doc = await db.collection('users').doc(uid).get();
-                if (doc.exists) {
-                    this.userData = doc.data();
-                    this.updateProfileUI();
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (session) {
+                    getUserProfile(session.user.id);
+                } else {
+                    currentUser = null;
+                    updateUI();
                 }
-            }
-
-            updateProfileUI() {
-                document.getElementById('profile-username').textContent = this.userData.username;
-                document.getElementById('profile-email').textContent = this.currentUser.email;
-                document.getElementById('join-date').textContent = new Date(this.userData.joinDate).toLocaleDateString();
-                if (this.userData.avatar) {
-                    document.getElementById('user-avatar').src = this.userData.avatar;
-                }
-            }
-
-            async uploadAvatar(file) {
-                const storageRef = firebase.storage().ref(`avatars/${this.currentUser.uid}`);
-                const snapshot = await storageRef.put(file);
-                const downloadURL = await snapshot.ref.getDownloadURL();
-                await db.collection('users').doc(this.currentUser.uid).update({ avatar: downloadURL });
-                return downloadURL;
-            }
-        }
-
-        class PostManager {
-            constructor() {
-                this.currentFilter = 'all';
-                this.currentSearch = '';
-            }
-
-            async getPostsWithFilters(collection) {
-                let query = db.collection(collection).orderBy('timestamp', 'desc');
-                if (this.currentFilter !== 'all') query = query.where('category', '==', this.currentFilter);
-                if (this.currentSearch) query = query.where('keywords', 'array-contains', this.currentSearch.toLowerCase());
-                return query.limit(20).get();
-            }
-
-            setupFilters() {
-                document.getElementById('category-filter').addEventListener('change', (e) => {
-                    this.currentFilter = e.target.value;
-                    this.refreshPosts();
-                });
-                document.getElementById('search-input').addEventListener('input', (e) => {
-                    this.currentSearch = e.target.value.trim();
-                    this.refreshPosts();
-                });
-            }
-        }
-
-        const userSystem = new UserSystem();
-        const postManager = new PostManager();
-
-        function initRecaptcha() {
-            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                size: 'normal',
-                callback: () => handleAuth()
             });
-            recaptchaVerifier.render();
-        }
-
-        async function handleAuth() {
-            const captchaResponse = grecaptcha.getResponse();
-            if(!captchaResponse) return alert('请完成验证码');
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            try {
-                await userSystem.login(email, password);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        async function sendPasswordReset(email) {
-            await firebase.auth().sendPasswordResetEmail(email);
-            alert('重置链接已发送到您的邮箱');
-        }
-
-        function logout() {
-            firebase.auth().signOut();
-        }
-
-        document.getElementById('avatar-input').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const url = await userSystem.uploadAvatar(file);
-                document.getElementById('profile-avatar').src = url;
-            }
         });
 
-        firebase.auth().onAuthStateChanged(async (user) => {
-            if (user) {
-                await userSystem.loadUserProfile(user.uid);
-                postManager.setupFilters();
-                initRecaptcha();
+        function initNavigation() {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = e.target.getAttribute('href').substring(1);
+                    switchSection(sectionId);
+                });
+            });
+        }
+
+        function switchSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            window.location.hash = sectionId;
+
+            const content = document.querySelector(`#${sectionId} .section-content`);
+            content.classList.remove('animate__animated', 'animate__fadeIn');
+            setTimeout(() => {
+                content.classList.add('animate__animated', 'animate__fadeIn');
+            }, 10);
+        }
+
+        function checkHash() {
+            if (window.location.hash) {
+                const sectionId = window.location.hash.substring(1);
+                switchSection(sectionId);
+            } else {
+                switchSection('home');
             }
-        });
+        }
+
+        function initAuth() {
+            document.getElementById('auth-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('auth-email').value;
+                const password = document.getElementById('auth-password').value;
+                const username = document.getElementById('auth-username').value;
+                const adminCode = document.getElementById('auth-admin-code').value;
+
+                if (isLoginMode) {
+                    const { user, error } = await supabase.auth.signIn({ email, password });
+                    if (error) {
+                        showError(error.message);
+                    } else {
+                        closeModal('auth-modal');
+                    }
+                } else {
+                    const { user, error } = await supabase.auth.signUp({ email, password });
+                    if (error) {
+                        showError(error.message);
+                    } else {
+                        const { data, error: profileError } = await supabase
+                            .from('profiles')
+                            .insert([{ 
+                                id: user.id, 
+                                username,
+                                role: adminCode === 'ADMIN_CODE' ? 'admin' : 'user'
+                            }]);
+                        if (profileError) {
+                            showError(profileError.message);
+                        } else {
+                            alert('注册成功，请检查邮箱验证');
+                            closeModal('auth-modal');
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('auth-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                openAuthModal();
+            });
+        }
+
+        function openAuthModal() {
+            document.getElementById('auth-modal').style.display = 'flex';
+            document.getElementById('auth-title').textContent = isLoginMode ? '登录' : '注册';
+            document.getElementById('auth-submit').textContent = isLoginMode ? '登录' : '注册';
+            document.getElementById('auth-toggle').textContent = isLoginMode ? '没有账号？立即注册' : '已有账号？立即登录';
+            document.getElementById('admin-code-group').style.display = isLoginMode ? 'none' : 'block';
+        }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-title').textContent = isLoginMode ? '登录' : '注册';
+            document.getElementById('auth-submit').textContent = isLoginMode ? '登录' : '注册';
+            document.getElementById('auth-toggle').textContent = isLoginMode ? '没有账号？立即注册' : '已有账号？立即登录';
+            document.getElementById('admin-code-group').style.display = isLoginMode ? 'none' : 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        async function getUserProfile(userId) {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+            if (data) {
+                currentUser = {
+                    id: data.id,
+                    username: data.username,
+                    role: data.role
+                };
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const authLink = document.getElementById('auth-link');
+            if (currentUser) {
+                authLink.textContent = currentUser.username;
+                document.querySelectorAll('.admin-controls').forEach(ctrl => {
+                    ctrl.style.display = currentUser.role === 'admin' ? 'flex' : 'none';
+                });
+            } else {
+                authLink.textContent = '登录/注册';
+                document.querySelectorAll('.admin-controls').forEach(ctrl => {
+                    ctrl.style.display = 'none';
+                });
+            }
+        }
+
+        function showError(message) {
+            alert(message);
+        }
+
+        function copyQQ() {
+            navigator.clipboard.writeText('949043991');
+            alert('QQ群号已复制到剪贴板');
+        }
+
+        window.addEventListener('hashchange', checkHash);
     </script>
 </body>
 </html>
