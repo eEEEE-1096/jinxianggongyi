@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>建筑画廊 - 锦湘工艺</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles/main.css">
+</head>
+<body>
+    <nav id="navbar">
+        <div class="brand">
+            <h1>锦湘工艺</h1>
+            <small>Jinxiang Process</small>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">返回首页</a>
+        </div>
+    </nav>
+
+    <main class="gallery">
+        <div class="container">
+            <h1>建筑画廊</h1>
+            <div class="gallery-grid" id="gallery-container"></div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { supabase } from './js/config.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data } = await supabase
+                .from('buildings')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (data) {
+                const container = document.getElementById('gallery-container');
+                container.innerHTML = data.map(building => `
+                    <div class="gallery-item">
+                        <img src="${building.image_url}" alt="${building.title}">
+                        <div class="gallery-info">
+                            <h3>${building.title}</h3>
+                            <p>${building.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        });
+    </script>
+</body>
+</html>
