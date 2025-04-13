@@ -1,247 +1,145 @@
-/* 全局样式 */
-:root {
-    --primary-color: #4a6fa5;
-    --secondary-color: #166088;
-    --accent-color: #4fc3f7;
-    --text-color: #333;
-    --light-text: #f8f9fa;
-    --background-color: rgba(255, 255, 255, 0.9);
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑首页 - 锦湘工艺后台</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- 后台导航栏 -->
+    <nav class="admin-navbar">
+        <div class="admin-navbar-brand">
+            <h1>锦湘工艺后台</h1>
+        </div>
+        <ul class="admin-navbar-menu">
+            <li><a href="index.html">控制台</a></li>
+            <li><a href="edit-home.html" class="active">首页编辑</a></li>
+            <li><a href="edit-about.html">关于我们</a></li>
+            <li><a href="edit-progress.html">建设进度</a></li>
+            <li><a href="edit-announcements.html">公告管理</a></li>
+            <li><a href="edit-bidding.html">招标管理</a></li>
+            <li><a href="edit-join.html">加入我们</a></li>
+        </ul>
+    </nav>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    <!-- 主要内容 -->
+    <main class="admin-container">
+        <h2>编辑首页内容</h2>
+        <form id="edit-home-form">
+            <div class="form-group">
+                <label for="home-title">首页标题</label>
+                <input type="text" id="home-title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="home-content">首页内容</label>
+                <textarea id="home-content" name="content" rows="6" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>首页区块</label>
+                <div id="home-sections">
+                    <!-- 区块将通过JavaScript动态加载 -->
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addSection()">添加区块</button>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">保存更改</button>
+                <button type="button" class="btn btn-secondary" onclick="previewChanges()">预览</button>
+            </div>
+        </form>
+    </main>
 
-body {
-    background: url('../images/background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: var(--text-color);
-    line-height: 1.6;
-    position: relative;
-    min-height: 100vh;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.85);
-    z-index: -1;
-}
-
-/* 导航栏样式 */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: var(--background-color);
-    box-shadow: var(--shadow);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-.navbar-brand h1 {
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    margin: 0;
-}
-
-.navbar-brand p {
-    font-size: 0.8rem;
-    color: var(--secondary-color);
-    margin: 0;
-}
-
-.navbar-menu {
-    display: flex;
-    list-style: none;
-}
-
-.navbar-menu li {
-    margin-left: 1.5rem;
-}
-
-.navbar-menu a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 500;
-    padding: 0.5rem 0;
-    position: relative;
-    transition: color 0.3s;
-}
-
-.navbar-menu a:hover {
-    color: var(--primary-color);
-}
-
-.navbar-menu a.active {
-    color: var(--primary-color);
-}
-
-.navbar-menu a.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary-color);
-}
-
-/* 主要内容容器 */
-.container {
-    max-width: 1200px;
-    margin: 6rem auto 2rem;
-    padding: 0 2rem;
-}
-
-/* Hero部分 */
-.hero {
-    height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.hero-content h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-}
-
-.hero-content p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: var(--secondary-color);
-}
-
-.btn {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-.btn:hover {
-    background-color: var(--secondary-color);
-}
-
-/* 内容区域 */
-.content-section {
-    background-color: var(--background-color);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    margin-bottom: 2rem;
-}
-
-.content-section h3 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-}
-
-/* 新闻轮播 */
-.news-section {
-    background-color: var(--background-color);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-}
-
-.news-section h3 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-}
-
-.news-carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 1.5rem;
-    padding-bottom: 1rem;
-    scroll-snap-type: x mandatory;
-}
-
-.news-item {
-    min-width: 300px;
-    background-color: white;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
-    scroll-snap-align: start;
-}
-
-.news-item h4 {
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-}
-
-.news-item .date {
-    color: #666;
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-}
-
-.news-item p {
-    margin-bottom: 1rem;
-}
-
-.news-item img {
-    width: 100%;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-}
-
-/* 页脚 */
-.footer {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: var(--background-color);
-    margin-top: 2rem;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        padding: 1rem;
-    }
-
-    .navbar-menu {
-        margin-top: 1rem;
-    }
-
-    .navbar-menu li {
-        margin-left: 1rem;
-    }
-
-    .hero-content h2 {
-        font-size: 2rem;
-    }
-
-    .hero-content p {
-        font-size: 1.2rem;
-    }
-
-    .container {
-        margin-top: 8rem;
-    }
-}
+    <script src="../../assets/js/admin.js"></script>
+    <script>
+        // 加载首页内容
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../../data/home.json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('home-title').value = data.title;
+                    document.getElementById('home-content').value = data.content;
+                    
+                    const sectionsContainer = document.getElementById('home-sections');
+                    data.sections.forEach((section, index) => {
+                        addSectionToForm(section, index);
+                    });
+                });
+        });
+        
+        // 添加新区块到表单
+        function addSection() {
+            const newSection = {
+                title: '',
+                content: '',
+                image: ''
+            };
+            addSectionToForm(newSection, document.querySelectorAll('.section-form').length);
+        }
+        
+        function addSectionToForm(section, index) {
+            const sectionsContainer = document.getElementById('home-sections');
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section-form';
+            sectionDiv.innerHTML = `
+                <div class="form-group">
+                    <label>区块标题</label>
+                    <input type="text" name="sections[${index}][title]" value="${section.title}" required>
+                </div>
+                <div class="form-group">
+                    <label>区块内容</label>
+                    <textarea name="sections[${index}][content]" rows="3" required>${section.content}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>区块图片URL</label>
+                    <input type="text" name="sections[${index}][image]" value="${section.image || ''}">
+                </div>
+                <button type="button" class="btn btn-danger" onclick="this.parentNode.remove()">删除区块</button>
+                <hr>
+            `;
+            sectionsContainer.appendChild(sectionDiv);
+        }
+        
+        // 表单提交
+        document.getElementById('edit-home-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('home-title').value,
+                content: document.getElementById('home-content').value,
+                sections: []
+            };
+            
+            document.querySelectorAll('.section-form').forEach(sectionForm => {
+                const title = sectionForm.querySelector('input[type="text"]').value;
+                const content = sectionForm.querySelector('textarea').value;
+                const image = sectionForm.querySelectorAll('input[type="text"]')[1].value;
+                
+                formData.sections.push({
+                    title,
+                    content,
+                    image
+                });
+            });
+            
+            // 保存到JSON文件
+            saveChanges('../../data/home.json', formData);
+        });
+        
+        function saveChanges(filePath, data) {
+            // 在实际应用中，这里应该发送到服务器保存
+            // 这里只是模拟保存
+            console.log('保存数据到:', filePath, data);
+            alert('更改已保存! (注: 在GitHub Pages上需要后端支持实际保存)');
+        }
+        
+        function previewChanges() {
+            alert('预览功能需要在实际服务器环境中实现');
+        }
+    </script>
+</body>
+</html>
