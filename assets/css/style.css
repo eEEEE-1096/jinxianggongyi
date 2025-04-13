@@ -3,143 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>编辑首页 - 锦湘工艺后台</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <title>锦湘工艺 - Minecraft服务器官网</title>
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- 后台导航栏 -->
-    <nav class="admin-navbar">
-        <div class="admin-navbar-brand">
-            <h1>锦湘工艺后台</h1>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-brand">
+            <h1>锦湘工艺</h1>
+            <p>Jinxiang Process</p>
         </div>
-        <ul class="admin-navbar-menu">
-            <li><a href="index.html">控制台</a></li>
-            <li><a href="edit-home.html" class="active">首页编辑</a></li>
-            <li><a href="edit-about.html">关于我们</a></li>
-            <li><a href="edit-progress.html">建设进度</a></li>
-            <li><a href="edit-announcements.html">公告管理</a></li>
-            <li><a href="edit-bidding.html">招标管理</a></li>
-            <li><a href="edit-join.html">加入我们</a></li>
+        <ul class="navbar-menu">
+            <li><a href="index.html" class="active">首页</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="progress.html">建设进度</a></li>
+            <li><a href="announcements.html">服务器公告</a></li>
+            <li><a href="bidding.html">建设招标</a></li>
+            <li><a href="penalties.html">处罚公示</a></li>
+            <li><a href="join.html">加入我们</a></li>
+            <li><a href="contact.html">留言</a></li>
         </ul>
     </nav>
 
     <!-- 主要内容 -->
-    <main class="admin-container">
-        <h2>编辑首页内容</h2>
-        <form id="edit-home-form">
-            <div class="form-group">
-                <label for="home-title">首页标题</label>
-                <input type="text" id="home-title" name="title" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="home-content">首页内容</label>
-                <textarea id="home-content" name="content" rows="6" required></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label>首页区块</label>
-                <div id="home-sections">
-                    <!-- 区块将通过JavaScript动态加载 -->
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>探索创造的无限可能</h2>
+                <p>锦湘工艺 - 一个专注于建筑艺术与工艺美学的Minecraft服务器</p>
+                <div class="hero-buttons">
+                    <a href="join.html" class="btn">立即加入</a>
+                    <a href="about.html" class="btn btn-secondary">了解更多</a>
                 </div>
-                <button type="button" class="btn btn-secondary" onclick="addSection()">添加区块</button>
             </div>
-            
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">保存更改</button>
-                <button type="button" class="btn btn-secondary" onclick="previewChanges()">预览</button>
+        </section>
+
+        <section class="content-section" id="home-content">
+            <div class="section-loading">
+                <div class="spinner"></div>
+                <p>加载内容中...</p>
             </div>
-        </form>
+        </section>
+
+        <section class="content-section news-section">
+            <h3><i class="fas fa-bullhorn"></i> 最新公告</h3>
+            <div class="news-carousel" id="news-carousel">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+        </section>
+
+        <section class="content-section stats-section">
+            <h3><i class="fas fa-chart-line"></i> 服务器数据</h3>
+            <div class="stats-grid" id="server-stats">
+                <div class="stat-item skeleton-stat">
+                    <div class="stat-icon"></div>
+                    <div class="stat-value"></div>
+                    <div class="stat-label"></div>
+                </div>
+                <div class="stat-item skeleton-stat">
+                    <div class="stat-icon"></div>
+                    <div class="stat-value"></div>
+                    <div class="stat-label"></div>
+                </div>
+                <div class="stat-item skeleton-stat">
+                    <div class="stat-icon"></div>
+                    <div class="stat-value"></div>
+                    <div class="stat-label"></div>
+                </div>
+                <div class="stat-item skeleton-stat">
+                    <div class="stat-icon"></div>
+                    <div class="stat-value"></div>
+                    <div class="stat-label"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <script src="../../assets/js/admin.js"></script>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>锦湘工艺</h3>
+                <p>Jinxiang Process</p>
+            </div>
+            <div class="footer-links">
+                <a href="about.html">关于我们</a>
+                <a href="progress.html">建设进度</a>
+                <a href="join.html">加入我们</a>
+                <a href="contact.html">联系我们</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-qq"></i></a>
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-bilibili"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 锦湘工艺 Minecraft服务器. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
     <script>
+        // 滚动时导航栏效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
         // 加载首页内容
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('../../data/home.json')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('home-title').value = data.title;
-                    document.getElementById('home-content').value = data.content;
-                    
-                    const sectionsContainer = document.getElementById('home-sections');
-                    data.sections.forEach((section, index) => {
-                        addSectionToForm(section, index);
+            // 模拟加载延迟
+            setTimeout(() => {
+                fetch('data/home.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const homeContent = document.getElementById('home-content');
+                        homeContent.innerHTML = `
+                            <h3>${data.title}</h3>
+                            <p class="lead">${data.subtitle}</p>
+                            <div class="divider"></div>
+                            <p>${data.content}</p>
+                            <div class="features-grid">
+                                ${data.features.map(feature => `
+                                    <div class="feature-item">
+                                        <i class="${feature.icon}"></i>
+                                        <h4>${feature.title}</h4>
+                                        <p>${feature.description}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
                     });
-                });
+
+                // 加载最新公告
+                fetch('data/announcements.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const newsCarousel = document.getElementById('news-carousel');
+                        newsCarousel.innerHTML = data.slice(0, 3).map(announcement => `
+                            <div class="announcement-card">
+                                <div class="announcement-header">
+                                    <span class="announcement-date">${announcement.date}</span>
+                                    ${announcement.important ? '<span class="announcement-important">重要</span>' : ''}
+                                </div>
+                                <h4>${announcement.title}</h4>
+                                <p>${announcement.summary}</p>
+                                <a href="announcements.html#announcement-${announcement.id}" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        `).join('');
+                    });
+
+                // 加载服务器数据
+                fetch('data/stats.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const statsGrid = document.getElementById('server-stats');
+                        statsGrid.innerHTML = `
+                            <div class="stat-item">
+                                <i class="fas fa-users"></i>
+                                <div class="stat-value">${data.players}+</div>
+                                <div class="stat-label">在线玩家</div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div class="stat-value">${data.days}</div>
+                                <div class="stat-label">运行天数</div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <div class="stat-value">${data.size}</div>
+                                <div class="stat-label">地图大小</div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-building"></i>
+                                <div class="stat-value">${data.buildings}</div>
+                                <div class="stat-label">建筑作品</div>
+                            </div>
+                        `;
+                    });
+            }, 1000);
         });
-        
-        // 添加新区块到表单
-        function addSection() {
-            const newSection = {
-                title: '',
-                content: '',
-                image: ''
-            };
-            addSectionToForm(newSection, document.querySelectorAll('.section-form').length);
-        }
-        
-        function addSectionToForm(section, index) {
-            const sectionsContainer = document.getElementById('home-sections');
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section-form';
-            sectionDiv.innerHTML = `
-                <div class="form-group">
-                    <label>区块标题</label>
-                    <input type="text" name="sections[${index}][title]" value="${section.title}" required>
-                </div>
-                <div class="form-group">
-                    <label>区块内容</label>
-                    <textarea name="sections[${index}][content]" rows="3" required>${section.content}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>区块图片URL</label>
-                    <input type="text" name="sections[${index}][image]" value="${section.image || ''}">
-                </div>
-                <button type="button" class="btn btn-danger" onclick="this.parentNode.remove()">删除区块</button>
-                <hr>
-            `;
-            sectionsContainer.appendChild(sectionDiv);
-        }
-        
-        // 表单提交
-        document.getElementById('edit-home-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                title: document.getElementById('home-title').value,
-                content: document.getElementById('home-content').value,
-                sections: []
-            };
-            
-            document.querySelectorAll('.section-form').forEach(sectionForm => {
-                const title = sectionForm.querySelector('input[type="text"]').value;
-                const content = sectionForm.querySelector('textarea').value;
-                const image = sectionForm.querySelectorAll('input[type="text"]')[1].value;
-                
-                formData.sections.push({
-                    title,
-                    content,
-                    image
-                });
-            });
-            
-            // 保存到JSON文件
-            saveChanges('../../data/home.json', formData);
-        });
-        
-        function saveChanges(filePath, data) {
-            // 在实际应用中，这里应该发送到服务器保存
-            // 这里只是模拟保存
-            console.log('保存数据到:', filePath, data);
-            alert('更改已保存! (注: 在GitHub Pages上需要后端支持实际保存)');
-        }
-        
-        function previewChanges() {
-            alert('预览功能需要在实际服务器环境中实现');
-        }
     </script>
 </body>
 </html>
