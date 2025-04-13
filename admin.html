@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑首页 - 锦湘工艺后台</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- 后台导航栏 -->
+    <nav class="admin-navbar">
+        <div class="admin-navbar-brand">
+            <h1>锦湘工艺后台</h1>
+        </div>
+        <ul class="admin-navbar-menu">
+            <li><a href="index.html">控制台</a></li>
+            <li><a href="edit-home.html" class="active">首页编辑</a></li>
+            <li><a href="edit-about.html">关于我们</a></li>
+            <li><a href="edit-progress.html">建设进度</a></li>
+            <li><a href="edit-announcements.html">公告管理</a></li>
+            <li><a href="edit-bidding.html">招标管理</a></li>
+            <li><a href="edit-join.html">加入我们</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="admin-container">
+        <h2>编辑首页内容</h2>
+        <form id="edit-home-form">
+            <div class="form-group">
+                <label for="home-title">首页标题</label>
+                <input type="text" id="home-title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="home-content">首页内容</label>
+                <textarea id="home-content" name="content" rows="6" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>首页区块</label>
+                <div id="home-sections">
+                    <!-- 区块将通过JavaScript动态加载 -->
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addSection()">添加区块</button>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">保存更改</button>
+                <button type="button" class="btn btn-secondary" onclick="previewChanges()">预览</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="../../assets/js/admin.js"></script>
+    <script>
+        // 加载首页内容
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../../data/home.json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('home-title').value = data.title;
+                    document.getElementById('home-content').value = data.content;
+                    
+                    const sectionsContainer = document.getElementById('home-sections');
+                    data.sections.forEach((section, index) => {
+                        addSectionToForm(section, index);
+                    });
+                });
+        });
+        
+        // 添加新区块到表单
+        function addSection() {
+            const newSection = {
+                title: '',
+                content: '',
+                image: ''
+            };
+            addSectionToForm(newSection, document.querySelectorAll('.section-form').length);
+        }
+        
+        function addSectionToForm(section, index) {
+            const sectionsContainer = document.getElementById('home-sections');
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section-form';
+            sectionDiv.innerHTML = `
+                <div class="form-group">
+                    <label>区块标题</label>
+                    <input type="text" name="sections[${index}][title]" value="${section.title}" required>
+                </div>
+                <div class="form-group">
+                    <label>区块内容</label>
+                    <textarea name="sections[${index}][content]" rows="3" required>${section.content}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>区块图片URL</label>
+                    <input type="text" name="sections[${index}][image]" value="${section.image || ''}">
+                </div>
+                <button type="button" class="btn btn-danger" onclick="this.parentNode.remove()">删除区块</button>
+                <hr>
+            `;
+            sectionsContainer.appendChild(sectionDiv);
+        }
+        
+        // 表单提交
+        document.getElementById('edit-home-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('home-title').value,
+                content: document.getElementById('home-content').value,
+                sections: []
+            };
+            
+            document.querySelectorAll('.section-form').forEach(sectionForm => {
+                const title = sectionForm.querySelector('input[type="text"]').value;
+                const content = sectionForm.querySelector('textarea').value;
+                const image = sectionForm.querySelectorAll('input[type="text"]')[1].value;
+                
+                formData.sections.push({
+                    title,
+                    content,
+                    image
+                });
+            });
+            
+            // 保存到JSON文件
+            saveChanges('../../data/home.json', formData);
+        });
+        
+        function saveChanges(filePath, data) {
+            // 在实际应用中，这里应该发送到服务器保存
+            // 这里只是模拟保存
+            console.log('保存数据到:', filePath, data);
+            alert('更改已保存! (注: 在GitHub Pages上需要后端支持实际保存)');
+        }
+        
+        function previewChanges() {
+            alert('预览功能需要在实际服务器环境中实现');
+        }
+    </script>
+</body>
+</html>
