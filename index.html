@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>锦湘工艺</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>锦湘工艺 - Minecraft城建服务器</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- 导航栏 -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="navbar-brand">
             <h1>锦湘工艺</h1>
             <p>Jinxiang Process</p>
@@ -28,169 +27,41 @@
     </nav>
 
     <!-- 主要内容 -->
-    <main class="container">
+    <main class="container" id="home-content">
         <section class="hero">
-            <div class="hero-content">
-                <h2>探索创造的无限可能</h2>
-                <p>锦湘工艺 - 一个专注于建筑艺术与工艺美学的Minecraft服务器</p>
-                <div class="hero-buttons">
-                    <a href="join.html" class="btn">立即加入</a>
-                    <a href="about.html" class="btn btn-secondary">了解更多</a>
+            <h2>欢迎来到锦湘工艺</h2>
+            <p>一个专注于建筑与工艺的Minecraft服务器</p>
+        </section>
+        
+        <section class="content-section">
+            <h3>服务器特色</h3>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🏗️</div>
+                    <h4>专业建筑</h4>
+                    <p>我们拥有专业的建筑团队和丰富的建筑资源</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h4>稳定运行</h4>
+                    <p>24/7稳定运行，专业服务器硬件支持</p>
                 </div>
             </div>
         </section>
-
-        <section class="content-section" id="home-content">
-            <div class="section-loading">
-                <div class="spinner"></div>
-                <p>加载内容中...</p>
-            </div>
-        </section>
-
-        <section class="content-section news-section">
-            <h3><i class="fas fa-bullhorn"></i> 最新公告</h3>
-            <div class="news-carousel" id="news-carousel">
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-                <div class="skeleton-card"></div>
-            </div>
-        </section>
-
-        <section class="content-section stats-section">
-            <h3><i class="fas fa-chart-line"></i> 服务器数据</h3>
-            <div class="stats-grid" id="server-stats">
-                <div class="stat-item skeleton-stat">
-                    <div class="stat-icon"></div>
-                    <div class="stat-value"></div>
-                    <div class="stat-label"></div>
-                </div>
-                <div class="stat-item skeleton-stat">
-                    <div class="stat-icon"></div>
-                    <div class="stat-value"></div>
-                    <div class="stat-label"></div>
-                </div>
-                <div class="stat-item skeleton-stat">
-                    <div class="stat-icon"></div>
-                    <div class="stat-value"></div>
-                    <div class="stat-label"></div>
-                </div>
-                <div class="stat-item skeleton-stat">
-                    <div class="stat-icon"></div>
-                    <div class="stat-value"></div>
-                    <div class="stat-label"></div>
-                </div>
+        
+        <section class="content-section">
+            <h3>最新公告</h3>
+            <div class="announcements-preview" id="announcements-preview">
+                <!-- 动态加载最新公告 -->
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <h3>锦湘工艺</h3>
-                <p>Jinxiang Process</p>
-            </div>
-            <div class="footer-links">
-                <a href="about.html">关于我们</a>
-                <a href="progress.html">建设进度</a>
-                <a href="join.html">加入我们</a>
-                <a href="contact.html">联系我们</a>
-            </div>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-qq"></i></a>
-                <a href="#"><i class="fab fa-weixin"></i></a>
-                <a href="#"><i class="fab fa-bilibili"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 锦湘工艺 Minecraft服务器. 保留所有权利.</p>
-        </div>
+        <p>&copy; 2025 锦湘工艺服务器. 保留所有权利.</p>
+        <p>联系管理员: 3780027024@qq.com</p>
     </footer>
 
-    <script src="assets/js/main.js"></script>
-    <script>
-        // 滚动时导航栏效果
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // 加载首页内容
-        document.addEventListener('DOMContentLoaded', function() {
-            // 模拟加载延迟
-            setTimeout(() => {
-                fetch('data/home.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const homeContent = document.getElementById('home-content');
-                        homeContent.innerHTML = `
-                            <h3>${data.title}</h3>
-                            <p class="lead">${data.subtitle}</p>
-                            <div class="divider"></div>
-                            <p>${data.content}</p>
-                            <div class="features-grid">
-                                ${data.features.map(feature => `
-                                    <div class="feature-item">
-                                        <i class="${feature.icon}"></i>
-                                        <h4>${feature.title}</h4>
-                                        <p>${feature.description}</p>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
-                    });
-
-                // 加载最新公告
-                fetch('data/announcements.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const newsCarousel = document.getElementById('news-carousel');
-                        newsCarousel.innerHTML = data.slice(0, 3).map(announcement => `
-                            <div class="announcement-card">
-                                <div class="announcement-header">
-                                    <span class="announcement-date">${announcement.date}</span>
-                                    ${announcement.important ? '<span class="announcement-important">重要</span>' : ''}
-                                </div>
-                                <h4>${announcement.title}</h4>
-                                <p>${announcement.summary}</p>
-                                <a href="announcements.html#announcement-${announcement.id}" class="read-more">阅读更多 <i class="fas fa-arrow-right"></i></a>
-                            </div>
-                        `).join('');
-                    });
-
-                // 加载服务器数据
-                fetch('data/stats.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const statsGrid = document.getElementById('server-stats');
-                        statsGrid.innerHTML = `
-                            <div class="stat-item">
-                                <i class="fas fa-users"></i>
-                                <div class="stat-value">${data.players}+</div>
-                                <div class="stat-label">在线玩家</div>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <div class="stat-value">${data.days}</div>
-                                <div class="stat-label">运行天数</div>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-map-marked-alt"></i>
-                                <div class="stat-value">${data.size}</div>
-                                <div class="stat-label">地图大小</div>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-building"></i>
-                                <div class="stat-value">${data.buildings}</div>
-                                <div class="stat-label">建筑作品</div>
-                            </div>
-                        `;
-                    });
-            }, 1000);
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
